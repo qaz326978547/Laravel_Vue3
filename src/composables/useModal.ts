@@ -6,19 +6,22 @@ export const modalStore = defineStore('modalStore', () => {
     const show = ref(false);
     const isLoading = ref(false);
 
-    const modalData: Ref<ModalStore> = ref({
+    const modalData = ref<ModalStore>({
         title: '',
         content: '',
         btnText: '',
     });
-    const open = () => {
-        show.value = true;
-    };
-    const openModal = async (data: ModalStore) => {
+    const setModalData = (data: ModalStore) => {
         modalData.value = data;
         show.value = true;
     };
-    const close = () => {
+
+
+    const openModal = () => {
+        show.value = true;
+    };
+
+    const closeModal = () => {
         show.value = false;
     };
     const setLoading = (status: boolean) => {
@@ -26,11 +29,11 @@ export const modalStore = defineStore('modalStore', () => {
     };
     return {
         modalData,
-        openModal,
-        close,
+        setModalData,
+        closeModal,
         show,
-        open,
         isLoading,
         setLoading,
+        openModal,
     };
 });

@@ -1,5 +1,34 @@
 {
   "files": [],
+  "include": [
+    "./src/**/*.ts",
+    "./auto-imports.d.ts"
+  ],
+  "compilerOptions": {
+    "types": ["element-plus/global", "vite/client", "node"], // 這裡是為了讓 vite 能夠正確的解析 node_modules 中的類型定義
+    "ignoreDeprecations": "5.0", // 忽略對特定類型的使用的警告
+    "preserveValueImports": false, // 保留導入的值以便於在類型簽名中使用
+    "module": "ESNext", // 使用最新的 ECMAScript 模块系统。
+    "target": "ESNext", // JavaScript 版本使用最新的 ECMAScript（JavaScript）语言特性
+    "useDefineForClassFields": true, // 使用 defineProperty 而不是直接賦值來初始化類的實例成員
+    "strict": true, //啟用嚴格模式
+    "moduleResolution": "Node", // 使用 Node.js 風格解析模塊
+    "allowSyntheticDefaultImports": true, // 允許從沒有設置默認導出的模塊中默認導入
+    "strictNullChecks": false, // 嚴格的 null 檢查
+    "esModuleInterop": true, // 簡化從非 TypeScript 模塊導入時的編譯步驟
+    "experimentalDecorators": true, // 启用实验性的ES装饰器
+    "noImplicitAny": false, // 允許隱式的 any 類型
+    "resolveJsonModule": true, // 允許導入 JSON 模塊
+    "isolatedModules": true, // 將每個文件做為獨立的模塊
+    "importsNotUsedAsValues": "preserve", // 保留導入以便於類型簽名中使用
+    "allowImportingTsExtensions":true, // 允許從 .ts 和 .tsx 擴展名導入模塊
+    "skipLibCheck": true, // 跳過對所有 .d.ts 文件的類型檢查
+    "moduleResolution bundler": true, // 將每個文件做為獨立的模塊
+    "allowJs": true, // 允許 JavaScript 文件進行類型檢查
+    "noEmit": false, // 不生成編譯後的文件
+//Option 'allowImportingTsExtensions' can only be used when either 'noEmit' or 'emitDeclarationOnly' is set.t 意思是說，當 noEmit 或 emitDeclarationOnly 設置為 true 時，才能使用 allowImportingTsExtensions
+    "emitDeclarationOnly": false, // 只生成 .d.ts 声明文件
+  },
   "references": [
     {
       "path": "./tsconfig.node.json"

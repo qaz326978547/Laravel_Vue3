@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: black;
+  color: white;
+}
+
+@layer components {
+  .btn {
+    @apply bg-blue-500 text-white font-bold py-2 px-4 rounded;
+  }
+  .btn-black {
+    @apply bg-black text-white font-bold py-2 px-4 rounded;
+  }
+  .btn-outline-black {
+    @apply border-2 border-black text-black font-bold py-2 px-4 rounded;
+  }
+}

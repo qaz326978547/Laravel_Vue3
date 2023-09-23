@@ -1,12 +1,13 @@
 import axios, { type AxiosRequestConfig, type Method } from 'axios';
-// import { modalStore } from '@/composables/modalStore';
 // import i18n from '@/plugins/i18n';
-// import { publicStore } from '@/stores/api/public';
-export const apiBaseUrl = `/api`; // api基礎路徑
+import { publicStore } from '@/stores/publicStore';
+
+export const apiBaseUrl = `http://127.0.0.1:8000/api`; // api基礎路徑
 // const { t: $t } = i18n.global;
 const apiTimeoutSec = 60;
 
 const ajax = axios.create({
+
     baseURL: apiBaseUrl,
     withCredentials: true, // 跨域請求時是否需要使用凭证
     headers: {
@@ -15,9 +16,22 @@ const ajax = axios.create({
     },
     timeout: apiTimeoutSec * 1000, // 請求超時時間
 });
-
+ajax.interceptors.request.use(
+    (config) => {
+        const store = publicStore();
+        const token = store.token  // 从你存储 token 的地方获取 token
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 // 請求攔截器
 export async function $http<T = any>(method: Method, url: string, ...payload: any[]): Promise<T> {
+
     const requestData: AxiosRequestConfig = { url, method }; // 請求參數
 
     if (method == 'get' || method == 'GET') {
@@ -36,6 +50,7 @@ export async function $http<T = any>(method: Method, url: string, ...payload: an
         }
         throw err;
     }
+
 }
 
 export function isNetworkError(err: { isAxiosError: any; response: any }) { // 判斷是否為網路錯誤
@@ -56,26 +71,21 @@ export function isResponseOK(
     if (err && !result) {
         console.warn(err, result);
         if (err.status == 401) {
-            appEmitter.emit(AppEvents.Logout);
+            // const { open } = useModal({
+            //     component: baseModal,
+            //     attrs: {
+            //         title: '提示',
+            //         content: '請重新登入',
+            //         btnText: 'OK',
+            //     },
+            // })
+            // open()
+            // const store = publicStore();
+            // store.logout()
+            return false;
         }
-        if (alertError) {
-            const errData = err.data;
-            let message = '';
-            if (typeof errData == 'string') {
-                message = errData;
-            } else {
-                message = errData.message;
-                try {
-                    Object.values(errData.errors || {}).forEach((e) => {
-                        message += `<br>${e[0]}`;
-                    });
-                } catch (err) {
-                    console.error(err);
-                }
-            }
-            appEmitter.emit(AppEvents.Modal, message);
-        }
-        return false;
+
+
     }
     return true;
 }
