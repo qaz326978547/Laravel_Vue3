@@ -37,7 +37,6 @@ import type { Product } from '@/type/api/product'
 import { loadingStore } from '@/composables/useLoading'
 
 const products = ref<Product[]>([]);
-const testloading = ref(false)
 const loading = loadingStore()
 const store = ProductStore()
 const { doWithLoading, isLoading } = loading

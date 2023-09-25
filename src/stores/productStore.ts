@@ -15,14 +15,13 @@ export const ProductStore = defineStore('product', () => {
         return result?.data;
     }
 
-    const getProductDetail = async (id: string | string[]) => {
+    const getProductDetail = async (id: number) => {
         const [err, result] = await asyncDo(
             $http<{ data: Product }>('get', `/product/${id}`),
         );
         if (!isResponseOK(err, result)) { //如果錯誤就回傳null
             return null;
         }
-        console.log(result?.data);
 
         return result?.data;
     }

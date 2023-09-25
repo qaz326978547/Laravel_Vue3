@@ -33,14 +33,12 @@ export namespace IResponse {
 
     export interface Cart {
 
-        cart: CartDetail;
+        cart_id: number;
+        quantity: number;
+        total: number;
+        user_id: number;
 
-        products: {
-            id: number;
-            cart_id: number;
-            quantity: number;
-            product: Product;
-        }
+        products: Product[];
     }
 
     export interface CartDetail {
@@ -51,11 +49,12 @@ export namespace IResponse {
     }
     export interface Product {
         id: number;
-        name: string;
+        title: string;
         price: number;
         description: string;
         image: string;
 
+        stock: number;
         quantity: number;
         created_at?: string;
         updated_at?: string;

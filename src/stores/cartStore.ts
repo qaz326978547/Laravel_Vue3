@@ -9,25 +9,32 @@ import { loadingStore } from '@/composables/useLoading'
 
 export const cartStore = defineStore('cartStore', () => {
 
-    const router = useRouter()
-    const { isLoading, loadingOn, loadingOff } = loadingStore()
-    //將isLoading使用toRef轉換成ref
 
     const getCart = async () => {
-        loadingOn()
         const [err, result] = await asyncDo(
             $http<IResponse.Cart>('get', '/cart'),
         );
         if (!isResponseOK(err, result)) { //如果錯誤就回傳null
             return null;
         }
-        loadingOff()
         return result;
     }
 
+    const updateCart = async (prodcut_id: number, quantity: number) => {
+        const [err, result] = await asyncDo(
+            $http<IResponse.Cart>('post', `/cart/add`, { prodcut_id: prodcut_id, quantity: quantity }),
+        );
+        if (!isResponseOK(err, result)) { //如果錯誤就回傳null
+            return null;
+        }
+        console.log(result);
+
+        return result;
+    }
 
     return {
-        getCart
+        getCart,
+        updateCart
     }
 
 })
